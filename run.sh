@@ -35,7 +35,7 @@ function limitedsearch
 {
     #Run the binary
     #limitedearch=$(./limitedsearch $1 $2 $3 76 $CDelta $4 $5 1 1)
-    limitedearch=$(./limitedsearch $1 $2 $3 75 $CDelta $4 $5 1 1)
+    limitedearch=$(./limitedsearch $1 $2 $3 $ColorDeltaLimited $CDelta $4 $5 1 1)
     echo "# Running: ./limitedsearch" $1 $2 $3 $ColorDelta $CDelta $4 $5 "1 1"
 
     #Only do stuff if pixel is found
@@ -85,9 +85,8 @@ function checkcurrentstatus
 {
     #Can we see the float?
     # R, G, B
-    #if limitedsearch 114, 34, 14
-    #if limitedsearch 102, 23, 10
-    if widthsearch 31 14 10
+    #if widthsearch 31 14 10 #SW/Elwynn Forest
+    if widthsearch 50 16 12 #WC
     then
         echo "# Float detected."
         floatdetected=1
@@ -106,20 +105,21 @@ function waitforbait
         else
             echo "# Bait!"
             echo "X: "$varLimitedX", Y: "$varLimitedY", R: "$varLimitedR", G: "$varLimitedG", B: "$varLimitedB
-            sleep 1.18
+            xdotool mousemove $FoundX $FoundY
+            sleep .$[ ( $RANDOM % 20 ) + 1 ]s
             xdotool mousedown 3
-            sleep 0.16
+            sleep .$[ ( $RANDOM % 20 ) + 0 ]s
             xdotool mouseup 3
-            sleep 0.4
+            sleep .$[ ( $RANDOM % 50 ) + 0 ]s
             xdotool mousedown 3
-            sleep 0.23
+            sleep .$[ ( $RANDOM % 30 ) + 0 ]s
             xdotool mouseup 3
             floatdetected=0
             baittick=0
             break
         fi
 
-        if [ $baittick -gt 140 ]
+        if [ $baittick -gt 160 ]
         then
             echo "# Waited too long for bait. Starting over."
             baittick=0
@@ -127,13 +127,15 @@ function waitforbait
         fi
 
         ((baittick++))
-        sleep 0.2
+        sleep 0.15
     done
 }
 
 #Global pixelsearch arguments
 #Variance allowed in color
+#CD5 and CDL 75 for Elwynn forest pool with 31 14 10 RGB.
 ColorDelta=5
+ColorDeltaLimited=75
 CDelta=1
 
 #Instance status boolean
@@ -154,6 +156,7 @@ while true
 do
     #Start fishing
     echo "Casting rod."
+    xdotool mousemove $varX $varY
     xdotool key ctrl+d
     sleep 0.5
 
