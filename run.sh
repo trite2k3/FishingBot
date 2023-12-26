@@ -62,7 +62,7 @@ function widthsearch
     #Run the binary
     #Debug
     #pixelsearch=$(./searchwidth $1 $2 $3 $ColorDelta $CDelta $varX $varY $varW $varH > log.txt)
-    echo "# Running: ./searchwidth $1 $2 $3 $ColorDelta $CDelta $varX $varY $varW $varH"
+    echo "# Running: ./search $1 $2 $3 $ColorDelta $CDelta $varX $varY $varW $varH"
     pixelsearch=$(timeout 30 ./searchwidth $1 $2 $3 $ColorDelta $CDelta $varX $varY $varW $varH)
 
     #Only do stuff if pixel is found
